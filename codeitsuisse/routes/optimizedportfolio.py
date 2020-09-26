@@ -8,11 +8,6 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
-def getKey(dictionary, value):
-    for key, i in dictionary.items():
-        if value == i:
-            return key
-
 def calcOHR(cr, spd, fpd):
     return cr*(spd/fpd)
 
@@ -24,45 +19,64 @@ def portfolio_evaluate():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
     inputVal = data.get("inputs")
+    inp = inputVal[0]
+
     ohr = {}
-    futVol = {}
     numfut = {}
-    for i in range(len(inputVal)):
-        portfolioVal = inputVal[i]["Portfolio"]["Value"]
-        SpotVol = inputVal[i]["Portfolio"]["SpotPrcVol"]
+    
+    portfolioVal = inp["Portfolio"]["Value"]
+    SpotVol = inp["Portfolio"]["SpotPrcVol"]
 
-        for j in range(len(inputVal[i]["IndexFutures"])):
-            name = inputVal[i]["IndexFutures"][j]["Name"]
-            cr = inputVal[i]["IndexFutures"][j]["CoRelationCoefficient"]
-            t1 = inputVal[i]["IndexFutures"][j]["FuturePrcVol"]
-            futVol[name]=t1
-            futPrice = inputVal[i]["IndexFutures"][j]["IndexFuturePrice"]
-            notional = inputVal[i]["IndexFutures"][j]["Notional"]
-            t2 = calcOHR(cr, SpotVol, futVol[name])
-            ohr[name]=round(t2,3)
-            t3 = futCont(ohr[name], portfolioVal, futPrice, notional)
-            numfut[name]=round(t3)
+    minOHR = 0
+    minfutVol = inp["IndexFutures"][0]["FuturePrcVol"]
+    minfutVolkey = inp["IndexFutures"][0]["Name"]
+    minOHRkey = inp["IndexFutures"][0]["Name"]
+    minNumFutkey = inp["IndexFutures"][0]["Name"]
 
-        minOHR = min(ohr.values())
-        minOHRkey = getKey(ohr, minOHR)
-        minfutVol = min(futVol.values())
-        minfutVolkey = getKey(futVol, minfutVol)
-        minNumFut = min(numfut.values())
-        minNumFutkey = getKey(numfut, minNumFut)
+    for j in range(len(inp["IndexFutures"])):
+        temp = inp["IndexFutures"][j]
 
-        if minOHRkey is minfutVolkey:
-            result = {"outputs": [{
-                "HedgePositionName" : minOHRkey, 
-                "OptimalHedgeRatio" : minOHR, 
-                "NumFuturesContract" : numfut[minOHRkey]
-                }]}
+        name = temp["Name"]
+        cr = temp["CoRelationCoefficient"]
+
+        t1 = temp["FuturePrcVol"]
+        
+        if t1 < minfutVol :
+            minfutVol = t1
+            minfutVolkey = name
+        
+        futPrice = temp["IndexFuturePrice"]
+        notional = temp["Notional"]
+
+        t2 = calcOHR(cr, SpotVol, t1)
+        if j == 0:
+            minOHR = round(t2,3)
+        elif t2 < minOHR:
+            minOHR = round(t2,3)
+            minOHRkey = name
+        ohr[name] = round(t2,3)
+
+        t3 = futCont(ohr[name], portfolioVal, futPrice, notional)
+        if j == 0:
+            minNumFut = round(t3)
+        elif t3 < minOHR:
+            minNumFut = round(t3)
+            minNumFutkey = name
+        numfut[name]=round(t3)
+
+    if minOHRkey == minfutVolkey:
+        result = {"outputs": [{
+            "HedgePositionName" : minOHRkey, 
+            "OptimalHedgeRatio" : minOHR, 
+            "NumFuturesContract" : numfut[minOHRkey]
+            }]}
             
-        else:
-            result = {"outputs": [{
-                "HedgePositionName" : minNumFutkey, 
-                "OptimalHedgeRatio" : ohr[minNumFutkey], 
-                "NumFuturesContract" : minNumFut
-                }]}
+    else:
+        result = {"outputs": [{
+            "HedgePositionName" : minNumFutkey, 
+            "OptimalHedgeRatio" : ohr[minNumFutkey], 
+            "NumFuturesContract" : minNumFut
+            }]}
        
     logging.info("My result :{}".format(result))
     return json.dumps(result)

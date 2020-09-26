@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def fruit():
     weights = {
         "maApple": 50,
-        "maWatermelon": 67,
+        "maWatermelon": 36, #completeish
         "maAvocado": 50, #completeish
         "maRamubutan": 70, #completeish
         "maPineapple": 60,

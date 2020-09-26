@@ -1,6 +1,6 @@
 import logging
 import json
-import math
+
 
 from flask import request, jsonify
 
@@ -9,6 +9,12 @@ from codeitsuisse import app
 logger = logging.getLogger(__name__)
 
 @app.route('/social_distancing', methods=['POST'])
+
+def comb(n,k):
+    ans=1
+    for i in range(k):
+        ans = ans*(n-i)
+    return ans
 
 def social_distancing_evaluate():
     data = request.get_json()
@@ -19,7 +25,7 @@ def social_distancing_evaluate():
         x=testVals[str(i)]["seats"]
         y=testVals[str(i)]["people"]
         z=testVals[str(i)]["spaces"]
-        result.append(math.comb(x-(z*(y-1)), y))
+        result.append(comb(x-(z*(y-1)), y))
     
     answer = {"answers": {}}
     for p, val in enumerate(result):

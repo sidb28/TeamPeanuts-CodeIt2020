@@ -33,7 +33,7 @@ def portfolio_evaluate():
             futVol[name]=t1
             futPrice = inputVal[i]["IndexFutures"][j]["IndexFuturePrice"]
             notional = inputVal[i]["IndexFutures"][j]["Notional"]
-            t2 = calcOHR(cr, SpotVol, futVol[j])
+            t2 = calcOHR(cr, SpotVol, futVol[name])
             ohr[name]=round(t2,3)
             t3 = futCont(ohr[j], portfolioVal, futPrice, notional)
             numfut[name]=round(t3)

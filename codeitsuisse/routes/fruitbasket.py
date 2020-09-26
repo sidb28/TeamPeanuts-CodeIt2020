@@ -12,10 +12,10 @@ def fruit():
     weights = {
         "maApple": 50,
         "maWatermelon": 67,
-        "maAvocado": 50,
-        "maRamubutan": 70, #complete
+        "maAvocado": 50, #completeish
+        "maRamubutan": 70, #completeish
         "maPineapple": 60,
-        "maPomegranate": 70 #complete
+        "maPomegranate": 70 #completeish
     }
     data = json.loads(request.data.decode("utf-8"))
     logging.info("data sent for evaluation {}".format(data))

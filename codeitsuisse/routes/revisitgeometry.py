@@ -20,8 +20,8 @@ def intersection():
     Y1 = lineCoord[0]['y']
     X2 = lineCoord[1]['x']
     Y2 = lineCoord[1]['y']
-    for i in range(shapeCoord)-2:
-        for j in range(i,shapeCoord):
+    for i in range(len(shapeCoord)-2):
+        for j in range(i,len(shapeCoord)-1):
             X3 = shapeCoord[i]['x']
             Y3 = shapeCoord[i]['y']
             X4 = shapeCoord[j]['x']

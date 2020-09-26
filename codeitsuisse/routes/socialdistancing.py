@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def comb(n,k):
     numerator = 1
-    denom1, denom2 = 0
+    denom1 = denom2 = 0
     for i in range(1,n+1):
         numerator*=i
         if(i==k):

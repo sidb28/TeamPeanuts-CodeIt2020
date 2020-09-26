@@ -11,11 +11,11 @@ logger = logging.getLogger(__name__)
 def fruit():
     weights = {
         "maApple": 50,
-        "maWatermelon": 30,
-        "maAvocado": 25,
+        "maWatermelon": 67,
+        "maAvocado": 50,
         "maRamubutan": 10,
         "maPineapple": 60,
-        "maPomegranate": 70
+        "maPomegranate": 70 #complete
     }
     data = json.loads(request.data.decode("utf-8"))
     logging.info("data sent for evaluation {}".format(data))

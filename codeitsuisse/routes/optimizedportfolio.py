@@ -14,7 +14,7 @@ def calcOHR(cr, spd, fpd):
 def futCont(ohr, portVal, fp, notVal):
     return (ohr*portVal)/(fp*notVal)
 
-@app.route('/social_distancing', methods=['POST'])
+@app.route('/optimizedportfolio', methods=['POST'])
 def portfolio_evaluate():
     data = request.get_json()
     #logging.info("data sent for evaluation {}".format(data))

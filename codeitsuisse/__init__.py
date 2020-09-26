@@ -7,3 +7,5 @@ import codeitsuisse.routes.fruitbasket
 import codeitsuisse.routes.cleanfloor
 import codeitsuisse.routes.socialdistancing
 import codeitsuisse.routes.optimizedportfolio
+import codeitsuisse.routes.gmo
+import codeitsuisse.routes.cluster

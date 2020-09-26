@@ -12,13 +12,16 @@ class Node:
         self.state = state
         self.atIndex = atIndex
         self.dirtLv = 0
-        for i in state:
-            self.dirtLv += i
-        self.parent = parent
         if(parent==None):
+            for i in state:
+                self.dirtLv += i
             self.moves = 0
         else:
             self.moves = parent.moves+1
+            if(parent.state[atIndex]==0):
+                self.dirtLv = parent.dirtLv+1
+            else:
+                self.dirtLv = parent.dirtLv-1
         
     def getNextMoves(self):
         nextMoves = []
@@ -61,7 +64,7 @@ def minimumMovesToClean(floorSpace):
     start_node = Node(floorSpace,0, None)
     open.append(start_node)
     while len(open)>0:
-        open.sort(key=lambda x: (x.dirtLv+x.moves))
+        open.sort(key=lambda x: (x.dirtLv))
         current_node = open.pop(0)
         # check if current node is goal node
         if(current_node.dirtLv==0):

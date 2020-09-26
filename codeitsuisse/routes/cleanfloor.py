@@ -15,6 +15,10 @@ class Node:
         for i in state:
             self.dirtLv += i
         self.parent = parent
+        if(parent==None):
+            self.moves = 0
+        else:
+            self.moves = parent.moves+1
         
     def getNextMoves(self):
         nextMoves = []
@@ -26,7 +30,6 @@ class Node:
                 newState[currentIndex-1]=1
             else:
                 newState[currentIndex-1]-=1
-            print("Generated left", newState)
             nextMoves.append(Node(newState,currentIndex-1,self))
 
         if(self.atIndex < len(self.state)-1):
@@ -36,7 +39,6 @@ class Node:
                 newState[currentIndex+1]=1
             else:
                 newState[currentIndex+1]-=1
-            print("Generated right", newState)
             nextMoves.append(Node(newState, currentIndex+1,self))
         
         return nextMoves
@@ -54,32 +56,20 @@ def clean():
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 
-def isNodePresentInOpen(open, givenNode):
-    for node in open:
-        if givenNode.state == node.state and givenNode.atIndex == node.atIndex:
-            return True
-    return False
-
 def minimumMovesToClean(floorSpace):
     open = []
     start_node = Node(floorSpace,0, None)
     open.append(start_node)
     while len(open)>0:
-        open.sort(key=lambda x: x.dirtLv)
+        open.sort(key=lambda x: (x.dirtLv+x.moves))
         current_node = open.pop(0)
-        print("looking at", current_node.state, current_node.atIndex)
         # check if current node is goal node
         if(current_node.dirtLv==0):
-            numberOfMoves=0
-            while current_node!=start_node:
-                current_node = current_node.parent
-                numberOfMoves+=1
-            return numberOfMoves
+           return current_node.moves
         
         #we must make a move
         nextMoveStates = current_node.getNextMoves()
         
         for node in nextMoveStates:
-            if not isNodePresentInOpen(open, node):
-                open.append(node)
+            open.append(node)
     return "Path not found"

@@ -15,7 +15,7 @@ def fruit():
         "maAvocado": 25,
         "maRamubutan": 10,
         "maPineapple": 60,
-        "maPomegranate": 10
+        "maPomegranate": 70
     }
     data = json.loads(request.data.decode("utf-8"))
     logging.info("data sent for evaluation {}".format(data))

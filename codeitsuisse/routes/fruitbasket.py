@@ -11,10 +11,10 @@ logger = logging.getLogger(__name__)
 def fruit():
     weights = {
         "maApple": 50,
-        "maWatermelon": 50,
-        "maAvocado": 50,
-        "maRamubutan": 50,
-        "maPineapple": 50,
+        "maWatermelon": 30,
+        "maAvocado": 25,
+        "maRamubutan": 10,
+        "maPineapple": 60,
         "maPomegranate": 10
     }
     data = json.loads(request.data.decode("utf-8"))

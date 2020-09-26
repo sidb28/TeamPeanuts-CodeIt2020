@@ -22,7 +22,7 @@ def futCont(ohr, portVal, fp, notVal):
 @app.route('/optimizedportfolio', methods=['POST'])
 def portfolio_evaluate():
     data = request.get_json()
-    #logging.info("data sent for evaluation {}".format(data))
+    logging.info("data sent for evaluation {}".format(data))
     inputVal = data.get("inputs")
     ohr = {}
     futVol = {}
@@ -64,5 +64,5 @@ def portfolio_evaluate():
                 "NumFuturesContract" : minNumFut
                 }]}
        
-    #logging.info("My result :{}".format(result))
+    logging.info("My result :{}".format(result))
     return json.dumps(result)

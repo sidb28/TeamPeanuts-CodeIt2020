@@ -8,14 +8,13 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
-@app.route('/social_distancing', methods=['POST'])
-
 def comb(n,k):
     ans=1
     for i in range(k):
         ans = ans*(n-i)
     return ans
 
+@app.route('/social_distancing', methods=['POST'])
 def social_distancing_evaluate():
     data = request.get_json()
     #logging.info("data sent for evaluation {}".format(data))

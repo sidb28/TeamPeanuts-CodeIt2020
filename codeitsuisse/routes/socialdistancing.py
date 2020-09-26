@@ -3,7 +3,6 @@ import json
 import math
 
 from flask import request, jsonify
-from math import comb
 
 from codeitsuisse import app
 
@@ -20,7 +19,7 @@ def social_distancing_evaluate():
         x=testVals[str(i)]["seats"]
         y=testVals[str(i)]["people"]
         z=testVals[str(i)]["spaces"]
-        result.append(comb(x-(z*(y-1)), y))
+        result.append(math.comb(x-(z*(y-1)), y))
     
     answer = {"answers": {}}
     for p, val in enumerate(result):

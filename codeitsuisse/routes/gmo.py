@@ -22,7 +22,7 @@ def gmoDRI():
         "list": listToReturn
     }
     logging.info("My result :{}".format(result))
-    return json.dumps(result)
+    return jsonify(result)
 
 def getBestDRI(geneSequence):
     dri = 0

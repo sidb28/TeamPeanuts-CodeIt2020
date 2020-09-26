@@ -8,6 +8,11 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
+def getKey(dictionary, value):
+    for key, i in dictionary.items():
+        if value == i:
+            return key
+
 def calcOHR(cr, spd, fpd):
     return cr*(spd/fpd)
 
@@ -35,15 +40,15 @@ def portfolio_evaluate():
             notional = inputVal[i]["IndexFutures"][j]["Notional"]
             t2 = calcOHR(cr, SpotVol, futVol[name])
             ohr[name]=round(t2,3)
-            t3 = futCont(ohr[j], portfolioVal, futPrice, notional)
+            t3 = futCont(ohr[name], portfolioVal, futPrice, notional)
             numfut[name]=round(t3)
 
         minOHR = min(ohr.values())
-        minOHRkey = [key for key in ohr if ohr[key] == minOHR]
+        minOHRkey = getKey(ohr, minOHR)
         minfutVol = min(futVol.values())
-        minfutVolkey = [key for key in futVol if futVol[key] == minfutVol]
+        minfutVolkey = getKey(futVol, minfutVol)
         minNumFut = min(numfut.values())
-        minNumFutkey = [key for key in numfut if numfut[key] == minNumFut]
+        minNumFutkey = getKey(numfut, minNumFut)
 
         if minOHRkey is minfutVolkey:
             result = {"outputs": [{

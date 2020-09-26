@@ -13,7 +13,7 @@ def fruit():
         "maApple": 50,
         "maWatermelon": 67,
         "maAvocado": 50,
-        "maRamubutan": 10,
+        "maRamubutan": 70, #complete
         "maPineapple": 60,
         "maPomegranate": 70 #complete
     }

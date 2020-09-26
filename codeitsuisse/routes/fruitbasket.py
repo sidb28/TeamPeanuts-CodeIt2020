@@ -12,7 +12,9 @@ def fruit():
     weights = {
         "maApple": 50,
         "maWatermelon": 50,
-        "maAvocado": 50
+        "maAvocado": 50,
+        "maRamubutan": 50,
+        "maPineapple": 50
     }
     data = json.loads(request.data.decode("utf-8"))
     logging.info("data sent for evaluation {}".format(data))
@@ -26,7 +28,7 @@ def fruit():
             weightOfFruit = 1
         finally:
             result += data[key]*weightOfFruit
-
+    print(result)
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 

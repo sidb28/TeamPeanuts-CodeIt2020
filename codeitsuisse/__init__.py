@@ -4,6 +4,5 @@ import codeitsuisse.routes.square
 import codeitsuisse.routes.revisitgeometry
 import codeitsuisse.routes.salad_spree
 import codeitsuisse.routes.fruitbasket
-
-
+import codeitsuisse.routes.cleanfloor
 

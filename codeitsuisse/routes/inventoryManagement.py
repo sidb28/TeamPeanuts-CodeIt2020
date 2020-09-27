@@ -20,9 +20,9 @@ def inventoryManagement():
 def getSearchResult(s1, items):
     searchResults = []
     resultCosts = []
-    s1=s1.lower()+" "
+    s1=s1.lower()
     for s in items:
-        s2 = s.lower()+" "
+        s2 = s.lower()
         k = k1 = k2 = num_operations = 0
         res = ''
         l1 = len(s1)
@@ -34,7 +34,10 @@ def getSearchResult(s1, items):
                 k2 += 1
             else:
                 num_operations += 1
-                p = s1.index(" ", k1)
+                try:
+                    p = s1.index(" ", k1)
+                except ValueError:
+                    p = len(s1)
                 if s2[k2] not in s1[k1:p]:
                     res += "+" + s2[k2]
                     k2 += 1
@@ -42,10 +45,16 @@ def getSearchResult(s1, items):
                     res += "-" + s1[k1]
                     k1 += 1
 
+        for i in range(k1,l1):
+            res += "-" + s1[i]
+        
+        for i in range(k2,l2):
+            res += "+" + s2[i]
+
         while (k < len(res)-4):
             substring = res[k:k+3]
             if ( "+" in substring and "-" in substring and substring.index("+")<substring.index("-") ):
-                res = res[0:k]+res[k+1]+res[k+4:-1]
+                res = res[0:k]+res[k+1]+res[k+4:]
                 num_operations -= 1
             k+=1
 
@@ -57,12 +66,9 @@ def getSearchResult(s1, items):
 
     searchResults.sort(key = lambda x: (x["cost"],x["originalString"]))
     finalList = []
-    for i in range(min(10, len(searchResults))):
-        stringToGive = searchResults[i]["newString"].strip().split(" ")
-        for i in range(len(stringToGive)):
-            if(stringToGive[i][0].isalpha()):
-                stringToGive[i] = stringToGive[i][0].upper() + stringToGive[i][1:]
-            else:
-                stringToGive[i] = stringToGive[i][0] + stringToGive[i][1].upper() + stringToGive[i][2:]
-        finalList.append(" ".join(stringToGive))
+    
+    for result in searchResults[:min(10,len(searchResults))]:
+      finalList.append(result["newString"])  
+
+    # finalList.append(searchResults[i]["originalString"])
     return finalList        
